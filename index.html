@@ -1,0 +1,971 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dahu Sound System</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Rajdhani:wght@400;600;700&family=Ubuntu+Mono&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --rasta-green: #1a7a1a;
+    --rasta-yellow: #f5c518;
+    --rasta-red: #c0392b;
+    --dark-bg: #0a0a0a;
+    --card-bg: #111111;
+    --card-border: #222222;
+    --text-main: #e8e8e8;
+    --text-muted: #888888;
+    --accent: #f5c518;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--dark-bg);
+    color: var(--text-main);
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 17px;
+    min-height: 100vh;
+  }
+
+  /* ── RASTA BANNER ── */
+  .rasta-banner {
+    display: flex;
+    height: 8px;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+  }
+  .rasta-banner span {
+    flex: 1;
+  }
+  .rasta-banner .r { background: var(--rasta-red); }
+  .rasta-banner .y { background: var(--rasta-yellow); }
+  .rasta-banner .g { background: var(--rasta-green); }
+
+  /* ── HERO ── */
+  .hero {
+    position: relative;
+    background: linear-gradient(160deg, #0d1a0d 0%, #0a0a0a 50%, #1a0a0a 100%);
+    padding: 60px 20px 40px;
+    text-align: center;
+    overflow: hidden;
+    border-bottom: 1px solid #222;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -80px; left: 50%; transform: translateX(-50%);
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(245,197,24,0.07) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(48px, 10vw, 96px);
+    letter-spacing: 6px;
+    line-height: 1;
+    background: linear-gradient(135deg, var(--rasta-green) 0%, var(--rasta-yellow) 50%, var(--rasta-red) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 8px;
+  }
+  .hero-sub {
+    font-family: 'Ubuntu Mono', monospace;
+    color: var(--text-muted);
+    letter-spacing: 4px;
+    font-size: 13px;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .hero-tagline {
+    color: var(--rasta-yellow);
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    opacity: 0.8;
+  }
+
+  /* ── NAV ── */
+  .nav-wrapper {
+    background: rgba(10,10,10,0.97);
+    border-bottom: 2px solid var(--rasta-green);
+    position: sticky;
+    top: 8px;
+    z-index: 999;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+  .nav {
+    display: inline-flex;
+    min-width: 100%;
+  }
+  .nav-btn {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 16px 22px;
+    cursor: pointer;
+    transition: all 0.2s;
+    border-bottom: 3px solid transparent;
+    position: relative;
+    top: 2px;
+    flex-shrink: 0;
+  }
+  .nav-btn:hover { color: var(--rasta-yellow); }
+  .nav-btn.active {
+    color: var(--rasta-yellow);
+    border-bottom-color: var(--rasta-yellow);
+  }
+
+  /* ── CONTENT ── */
+  .content {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 50px 20px 80px;
+  }
+
+  .section { display: none; }
+  .section.active { display: block; animation: fadeIn 0.35s ease; }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── TYPOGRAPHY ── */
+  .section-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 48px;
+    letter-spacing: 3px;
+    color: var(--rasta-yellow);
+    margin-bottom: 6px;
+    line-height: 1;
+  }
+  .section-subtitle {
+    color: var(--text-muted);
+    font-size: 13px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 40px;
+    padding-bottom: 18px;
+    border-bottom: 1px solid #222;
+  }
+
+  /* ── CARDS ── */
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 20px;
+    margin-top: 30px;
+  }
+  .card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-top: 3px solid var(--rasta-green);
+    padding: 24px 20px;
+    border-radius: 2px;
+    transition: border-top-color 0.2s, transform 0.2s;
+  }
+  .card:hover { border-top-color: var(--rasta-yellow); transform: translateY(-3px); }
+  .card-role {
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--rasta-green);
+    margin-bottom: 8px;
+    font-weight: 700;
+  }
+  .card-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 26px;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+  }
+  .card-desc {
+    color: var(--text-muted);
+    font-size: 14px;
+    line-height: 1.5;
+  }
+  .card-avatar {
+    width: 60px; height: 60px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--rasta-green), var(--rasta-yellow));
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 26px;
+    color: #000;
+    margin-bottom: 16px;
+  }
+
+  /* ── TIMELINE ── */
+  .timeline { margin-top: 30px; }
+  .timeline-item {
+    display: flex;
+    gap: 24px;
+    margin-bottom: 32px;
+    position: relative;
+  }
+  .timeline-item::before {
+    content: '';
+    position: absolute;
+    left: 49px; top: 40px;
+    width: 2px; height: calc(100% + 32px);
+    background: linear-gradient(to bottom, var(--rasta-green), transparent);
+  }
+  .timeline-item:last-child::before { display: none; }
+  .timeline-year {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 20px;
+    color: var(--rasta-yellow);
+    min-width: 60px;
+    padding-top: 4px;
+    text-align: center;
+  }
+  .timeline-dot {
+    width: 14px; height: 14px;
+    border-radius: 50%;
+    background: var(--rasta-green);
+    margin-top: 8px;
+    flex-shrink: 0;
+    box-shadow: 0 0 10px rgba(26,122,26,0.5);
+  }
+  .timeline-text h3 {
+    color: var(--text-main);
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+  .timeline-text p { color: var(--text-muted); font-size: 15px; line-height: 1.6; }
+
+  /* ── SUB-TABS ── */
+  .sub-nav {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+  }
+  .sub-btn {
+    background: #151515;
+    border: 1px solid #333;
+    color: var(--text-muted);
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 8px 18px;
+    cursor: pointer;
+    transition: all 0.2s;
+    border-radius: 2px;
+  }
+  .sub-btn:hover { color: var(--text-main); border-color: #555; }
+  .sub-btn.active {
+    background: var(--rasta-green);
+    border-color: var(--rasta-green);
+    color: #fff;
+  }
+  .sub-section { display: none; }
+  .sub-section.active { display: block; animation: fadeIn 0.25s ease; }
+
+  /* ── PHOTO GRID ── */
+  .photo-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 12px;
+    margin-top: 20px;
+  }
+  .photo-placeholder {
+    aspect-ratio: 4/3;
+    background: linear-gradient(135deg, #151515, #1a1a1a);
+    border: 1px solid #252525;
+    border-radius: 2px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #333;
+    font-size: 13px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    gap: 8px;
+    transition: border-color 0.2s;
+  }
+  .photo-placeholder:hover { border-color: var(--rasta-green); }
+  .photo-placeholder svg { opacity: 0.3; }
+
+  /* ── PLANNING TABLE ── */
+  .planning-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  .planning-table th {
+    text-align: left;
+    padding: 12px 16px;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--rasta-green);
+    border-bottom: 2px solid #222;
+    font-weight: 700;
+  }
+  .planning-table td {
+    padding: 14px 16px;
+    border-bottom: 1px solid #1a1a1a;
+    font-size: 15px;
+    vertical-align: middle;
+  }
+  .planning-table tr:hover td { background: #111; }
+  .badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  .badge-confirmed { background: rgba(26,122,26,0.2); color: var(--rasta-green); border: 1px solid var(--rasta-green); }
+  .badge-pending   { background: rgba(245,197,24,0.15); color: var(--rasta-yellow); border: 1px solid var(--rasta-yellow); }
+
+  /* ── BUDGET ── */
+  .budget-total {
+    background: linear-gradient(135deg, #0d1a0d, #111);
+    border: 1px solid var(--rasta-green);
+    border-left: 5px solid var(--rasta-green);
+    padding: 32px;
+    margin-bottom: 30px;
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    flex-wrap: wrap;
+  }
+  .budget-amount {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 64px;
+    color: var(--rasta-yellow);
+    line-height: 1;
+    letter-spacing: 2px;
+  }
+  .budget-label { color: var(--text-muted); font-size: 13px; letter-spacing: 2px; text-transform: uppercase; }
+  .budget-rows { margin-top: 20px; }
+  .budget-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 0;
+    border-bottom: 1px solid #1a1a1a;
+  }
+  .budget-row-name { color: var(--text-main); font-weight: 600; }
+  .budget-row-amount { color: var(--rasta-yellow); font-family: 'Ubuntu Mono', monospace; font-size: 15px; }
+  .budget-row-bar { height: 3px; background: #1a1a1a; margin-top: 6px; border-radius: 2px; overflow: hidden; }
+  .budget-row-fill { height: 100%; background: linear-gradient(90deg, var(--rasta-green), var(--rasta-yellow)); border-radius: 2px; }
+
+  /* ── MUSIC LINKS ── */
+  .music-links { display: flex; flex-direction: column; gap: 14px; margin-top: 20px; }
+  .music-link {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    padding: 18px 22px;
+    text-decoration: none;
+    color: var(--text-main);
+    transition: border-color 0.2s, transform 0.2s;
+    border-radius: 2px;
+  }
+  .music-link:hover { border-color: var(--rasta-yellow); transform: translateX(4px); }
+  .music-link-icon {
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px;
+    flex-shrink: 0;
+  }
+  .music-link-info strong { display: block; font-size: 16px; font-weight: 700; margin-bottom: 2px; }
+  .music-link-info span { color: var(--text-muted); font-size: 13px; }
+
+  /* ── CONTACT ── */
+  .contact-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; margin-top: 20px; }
+  .contact-card {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    padding: 20px;
+    border-radius: 2px;
+    text-decoration: none;
+    color: var(--text-main);
+    transition: all 0.2s;
+  }
+  .contact-card:hover { border-color: var(--rasta-yellow); transform: translateY(-2px); }
+  .contact-icon {
+    width: 48px; height: 48px;
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px;
+    flex-shrink: 0;
+  }
+  .contact-info strong { display: block; font-size: 15px; font-weight: 700; }
+  .contact-info span { color: var(--text-muted); font-size: 13px; }
+
+  /* ── MATOS LINKS ── */
+  .matos-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 14px; margin-top: 20px; }
+  .matos-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-left: 4px solid var(--rasta-red);
+    padding: 20px;
+    border-radius: 2px;
+    text-decoration: none;
+    color: var(--text-main);
+    display: block;
+    transition: all 0.2s;
+  }
+  .matos-card:hover { border-left-color: var(--rasta-yellow); transform: translateX(4px); }
+  .matos-card strong { display: block; font-size: 16px; font-weight: 700; margin-bottom: 4px; }
+  .matos-card span { color: var(--text-muted); font-size: 13px; }
+
+  /* ── DESCRIPTION TEXT ── */
+  .prose {
+    color: var(--text-muted);
+    line-height: 1.8;
+    font-size: 16px;
+    max-width: 700px;
+    margin-bottom: 30px;
+  }
+  .prose strong { color: var(--text-main); }
+
+  /* ── RASTA STRIPE DIVIDER ── */
+  .rasta-divider {
+    display: flex;
+    height: 3px;
+    margin: 30px 0;
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .rasta-divider span { flex: 1; }
+  .rasta-divider .r { background: var(--rasta-red); }
+  .rasta-divider .y { background: var(--rasta-yellow); }
+  .rasta-divider .g { background: var(--rasta-green); }
+
+  /* ── FOOTER ── */
+  footer {
+    text-align: center;
+    padding: 30px 20px;
+    border-top: 1px solid #1a1a1a;
+    color: var(--text-muted);
+    font-size: 13px;
+    letter-spacing: 1px;
+  }
+  .footer-rasta { display: flex; height: 4px; margin-bottom: 20px; }
+  .footer-rasta span { flex: 1; }
+
+  /* ── SCROLLBAR ── */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: #0a0a0a; }
+  ::-webkit-scrollbar-thumb { background: var(--rasta-green); border-radius: 3px; }
+
+  @media (max-width: 600px) {
+    .nav-btn { padding: 14px 14px; font-size: 12px; }
+    .budget-amount { font-size: 44px; }
+    .section-title { font-size: 36px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Rasta banner -->
+<div class="rasta-banner">
+  <span class="r"></span><span class="y"></span><span class="g"></span>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-logo">Dahu Sound System</div>
+  <div class="hero-sub">Association Culturelle · Sound System</div>
+  <div class="hero-tagline">★ One Love · One Sound · One Vibe ★</div>
+</div>
+
+<!-- NAVIGATION -->
+<div class="nav-wrapper">
+  <nav class="nav">
+    <button class="nav-btn active" onclick="showSection('equipe')">👥 L'Équipe</button>
+    <button class="nav-btn" onclick="showSection('creation')">🌱 Notre Histoire</button>
+    <button class="nav-btn" onclick="showSection('sound')">🔊 Le Sound System</button>
+    <button class="nav-btn" onclick="showSection('planning')">📅 Planning</button>
+    <button class="nav-btn" onclick="showSection('budget')">💰 Investissements</button>
+    <button class="nav-btn" onclick="showSection('musique')">🎵 Musique</button>
+    <button class="nav-btn" onclick="showSection('contact')">📡 Contact</button>
+  </nav>
+</div>
+
+<!-- CONTENT -->
+<div class="content">
+
+  <!-- ═══ ÉQUIPE ═══ -->
+  <div id="equipe" class="section active">
+    <div class="section-title">L'Équipe</div>
+    <div class="section-subtitle">Les personnes derrière le Dahu Sound System</div>
+    <p class="prose">Le Dahu Sound System c'est avant tout une bande de passionné·e·s uni·e·s par la même flamme : partager la culture sound system avec le plus grand nombre. Voici les personnes qui font vivre l'association.</p>
+    <div class="cards-grid">
+      <div class="card">
+        <div class="card-avatar">P</div>
+        <div class="card-role">🎖️ Président</div>
+        <div class="card-name">Prénom Nom</div>
+        <div class="card-desc">Pilier de l'association, coordonne les projets et représente le Dahu Sound System.</div>
+      </div>
+      <div class="card">
+        <div class="card-avatar">S</div>
+        <div class="card-role">📋 Secrétaire</div>
+        <div class="card-name">Prénom Nom</div>
+        <div class="card-desc">Gère les démarches administratives, les comptes-rendus et les correspondances officielles.</div>
+      </div>
+      <div class="card">
+        <div class="card-avatar">📸</div>
+        <div class="card-role">📷 Photographe</div>
+        <div class="card-name">Prénom Nom</div>
+        <div class="card-desc">Capture les meilleurs moments de nos événements pour l'éternité.</div>
+      </div>
+      <div class="card">
+        <div class="card-avatar">🎤</div>
+        <div class="card-role">🎶 Artistes</div>
+        <div class="card-name">Les Selectors</div>
+        <div class="card-desc">Les DJs et selectors qui font vibrer les platines lors de chaque sortie.</div>
+      </div>
+      <div class="card">
+        <div class="card-avatar">CM</div>
+        <div class="card-role">📲 Community Manager</div>
+        <div class="card-name">Prénom Nom</div>
+        <div class="card-desc">Anime les réseaux sociaux et gère la communication digitale de l'association.</div>
+      </div>
+      <div class="card">
+        <div class="card-avatar">€</div>
+        <div class="card-role">🧾 Comptable</div>
+        <div class="card-name">Prénom Nom</div>
+        <div class="card-desc">Assure le suivi financier de l'association avec rigueur et transparence.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ HISTOIRE ═══ -->
+  <div id="creation" class="section">
+    <div class="section-title">Notre Histoire</div>
+    <div class="section-subtitle">La genèse du Dahu Sound System</div>
+    <p class="prose">
+      Le Dahu Sound System est né d'une passion partagée pour la culture reggae, dub et sound system. Depuis nos débuts, nous construisons pièce par pièce un sound capable de faire vibrer les murs et les cœurs. Voici les grandes étapes de notre aventure collective.
+    </p>
+    <div class="rasta-divider"><span class="r"></span><span class="y"></span><span class="g"></span></div>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-year">2022</div>
+        <div class="timeline-dot"></div>
+        <div class="timeline-text">
+          <h3>🌱 L'idée germe</h3>
+          <p>Quelques amis passionnés de sound system décident de se lancer dans l'aventure. Les premières discussions, les premiers rêves, les premières convictions.</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-year">2023</div>
+        <div class="timeline-dot"></div>
+        <div class="timeline-text">
+          <h3>📜 Création officielle de l'association</h3>
+          <p>Le Dahu Sound System devient une association loi 1901. Rédaction des statuts, élection du bureau, immatriculation. L'aventure est officielle !</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-year">2023</div>
+        <div class="timeline-dot"></div>
+        <div class="timeline-text">
+          <h3>🔊 Construction du sound</h3>
+          <p>Début de la construction artisanale du sound system. Chaque caisse, chaque ampli, chaque câble est choisi, installé et testé avec soin.</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-year">2024</div>
+        <div class="timeline-dot"></div>
+        <div class="timeline-text">
+          <h3>🎉 Première sortie publique</h3>
+          <p>Le Dahu Sound System sort pour la première fois et fait résonner son bass dans l'espace public. Un moment inoubliable pour toute l'équipe.</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-year">2025+</div>
+        <div class="timeline-dot"></div>
+        <div class="timeline-text">
+          <h3>🚀 La suite s'écrit...</h3>
+          <p>Développement du sound, nouveaux événements, nouvelles collaborations. L'histoire continue, et les meilleures pages restent à écrire.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ SOUND SYSTEM ═══ -->
+  <div id="sound" class="section">
+    <div class="section-title">Le Sound System</div>
+    <div class="section-subtitle">Technique · Galerie · Construction · Acheter du matos</div>
+
+    <div class="sub-nav">
+      <button class="sub-btn active" onclick="showSub('plan')">📐 Plan & Technique</button>
+      <button class="sub-btn" onclick="showSub('photos')">📸 Photos</button>
+      <button class="sub-btn" onclick="showSub('construction')">🔧 La Construction</button>
+      <button class="sub-btn" onclick="showSub('matos')">🛒 Acheter du matos</button>
+    </div>
+
+    <!-- Plan -->
+    <div id="plan" class="sub-section active">
+      <p class="prose">Schéma technique de notre installation. Le Dahu Sound System est construit entièrement par les membres de l'association.</p>
+      <div style="background:#0d0d0d;border:1px solid #252525;padding:30px;text-align:center;margin-bottom:20px;">
+        <svg width="100%" viewBox="0 0 600 300" xmlns="http://www.w3.org/2000/svg" style="max-width:600px;">
+          <!-- Ampli Sub -->
+          <rect x="30" y="100" width="100" height="60" rx="4" fill="#0d1a0d" stroke="#1a7a1a" stroke-width="2"/>
+          <text x="80" y="128" text-anchor="middle" fill="#f5c518" font-size="11" font-family="monospace">AMP SUB</text>
+          <text x="80" y="145" text-anchor="middle" fill="#888" font-size="9" font-family="monospace">800W RMS</text>
+          <!-- Câble sub -->
+          <line x1="130" y1="130" x2="200" y2="130" stroke="#1a7a1a" stroke-width="2" stroke-dasharray="4,3"/>
+          <!-- Subs -->
+          <rect x="200" y="60" width="80" height="80" rx="4" fill="#0d1a0d" stroke="#c0392b" stroke-width="2"/>
+          <text x="240" y="100" text-anchor="middle" fill="#f5c518" font-size="11" font-family="monospace">SUB</text>
+          <text x="240" y="116" text-anchor="middle" fill="#888" font-size="9" font-family="monospace">18"×2</text>
+          <rect x="200" y="160" width="80" height="80" rx="4" fill="#0d1a0d" stroke="#c0392b" stroke-width="2"/>
+          <text x="240" y="200" text-anchor="middle" fill="#f5c518" font-size="11" font-family="monospace">SUB</text>
+          <text x="240" y="216" text-anchor="middle" fill="#888" font-size="9" font-family="monospace">18"×2</text>
+          <!-- Mixer -->
+          <rect x="270" y="110" width="80" height="60" rx="4" fill="#1a1a0d" stroke="#f5c518" stroke-width="2"/>
+          <text x="310" y="138" text-anchor="middle" fill="#f5c518" font-size="11" font-family="monospace">MIXER</text>
+          <text x="310" y="154" text-anchor="middle" fill="#888" font-size="9" font-family="monospace">16 canaux</text>
+          <!-- Ampli Mid/High -->
+          <rect x="380" y="100" width="100" height="60" rx="4" fill="#0d0d1a" stroke="#1a7a1a" stroke-width="2"/>
+          <text x="430" y="128" text-anchor="middle" fill="#f5c518" font-size="11" font-family="monospace">AMP MID/HI</text>
+          <text x="430" y="145" text-anchor="middle" fill="#888" font-size="9" font-family="monospace">400W RMS</text>
+          <!-- Câble mid -->
+          <line x1="350" y1="130" x2="380" y2="130" stroke="#1a7a1a" stroke-width="2" stroke-dasharray="4,3"/>
+          <line x1="280" y1="130" x2="270" y2="130" stroke="#f5c518" stroke-width="2" stroke-dasharray="4,3"/>
+          <!-- Tops -->
+          <rect x="490" y="60" width="80" height="60" rx="4" fill="#0d1a0d" stroke="#1a7a1a" stroke-width="2"/>
+          <text x="530" y="88" text-anchor="middle" fill="#f5c518" font-size="11" font-family="monospace">TOP</text>
+          <text x="530" y="104" text-anchor="middle" fill="#888" font-size="9" font-family="monospace">12"+HF</text>
+          <rect x="490" y="180" width="80" height="60" rx="4" fill="#0d1a0d" stroke="#1a7a1a" stroke-width="2"/>
+          <text x="530" y="208" text-anchor="middle" fill="#f5c518" font-size="11" font-family="monospace">TOP</text>
+          <text x="530" y="224" text-anchor="middle" fill="#888" font-size="9" font-family="monospace">12"+HF</text>
+          <line x1="480" y1="130" x2="490" y2="90" stroke="#1a7a1a" stroke-width="2" stroke-dasharray="4,3"/>
+          <line x1="480" y1="130" x2="490" y2="210" stroke="#1a7a1a" stroke-width="2" stroke-dasharray="4,3"/>
+          <!-- Légende -->
+          <text x="30" y="270" fill="#555" font-size="10" font-family="monospace">── câble signal    SUB = caissons basses    TOP = enceintes medium/aigu</text>
+        </svg>
+      </div>
+      <p class="prose">
+        <strong>Configuration actuelle :</strong> 4 caissons basses 18", 2 tops 12"+HF, amplification dédiée sub et medium/aigu, table de mixage 16 canaux. Tout le câblage est fait maison.
+      </p>
+    </div>
+
+    <!-- Photos -->
+    <div id="photos" class="sub-section">
+      <p class="prose">Galerie photos de nos événements et de notre sound system en action.</p>
+      <div class="photo-grid">
+        <div class="photo-placeholder">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+          Ajouter une photo
+        </div>
+        <div class="photo-placeholder">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+          Ajouter une photo
+        </div>
+        <div class="photo-placeholder">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+          Ajouter une photo
+        </div>
+        <div class="photo-placeholder">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+          Ajouter une photo
+        </div>
+        <div class="photo-placeholder">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+          Ajouter une photo
+        </div>
+        <div class="photo-placeholder">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+          Ajouter une photo
+        </div>
+      </div>
+    </div>
+
+    <!-- Construction -->
+    <div id="construction" class="sub-section">
+      <p class="prose">Tout notre sound system a été construit de nos propres mains. Voici les étapes clés de la fabrication.</p>
+      <div class="photo-grid">
+        <div class="photo-placeholder">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg>
+          Phase construction
+        </div>
+        <div class="photo-placeholder">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg>
+          Câblage interne
+        </div>
+        <div class="photo-placeholder">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg>
+          Tests audio
+        </div>
+        <div class="photo-placeholder">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg>
+          Finitions & peinture
+        </div>
+      </div>
+    </div>
+
+    <!-- Matos -->
+    <div id="matos" class="sub-section">
+      <p class="prose">Les boutiques et sites que l'on recommande pour acheter du matériel audio de qualité.</p>
+      <div class="matos-list">
+        <a href="https://www.sono-discount.com" target="_blank" class="matos-card">
+          <strong>🔊 Sono Discount</strong>
+          <span>Enceintes, amplis, câbles — bon rapport qualité/prix</span>
+        </a>
+        <a href="https://www.thomann.de/fr" target="_blank" class="matos-card">
+          <strong>🎛️ Thomann</strong>
+          <span>Le géant européen du matériel audio & musical</span>
+        </a>
+        <a href="https://www.woodbrass.com" target="_blank" class="matos-card">
+          <strong>🎵 Woodbrass</strong>
+          <span>Matériel DJ, mixage et sono — livraison rapide</span>
+        </a>
+        <a href="https://www.leroymerlin.fr" target="_blank" class="matos-card">
+          <strong>🪚 Leroy Merlin</strong>
+          <span>Bois, visserie, outillage pour la construction des baffles</span>
+        </a>
+        <a href="https://www.amazon.fr" target="_blank" class="matos-card">
+          <strong>📦 Amazon</strong>
+          <span>Connecteurs, câbles, quincaillerie en tout genre</span>
+        </a>
+        <a href="https://www.ebay.fr" target="_blank" class="matos-card">
+          <strong>♻️ eBay / LeBonCoin</strong>
+          <span>Matériel d'occasion — bons plans à surveiller régulièrement</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ PLANNING ═══ -->
+  <div id="planning" class="section">
+    <div class="section-title">Planning</div>
+    <div class="section-subtitle">Nos prochaines sorties et événements</div>
+    <table class="planning-table">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Événement</th>
+          <th>Lieu</th>
+          <th>Statut</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>15 Avr 2025</strong></td>
+          <td>Sound System Session #1</td>
+          <td>📍 Marseille</td>
+          <td><span class="badge badge-confirmed">Confirmé</span></td>
+        </tr>
+        <tr>
+          <td><strong>03 Mai 2025</strong></td>
+          <td>Fête du Travail – Bass & Unity</td>
+          <td>📍 À définir</td>
+          <td><span class="badge badge-pending">En attente</span></td>
+        </tr>
+        <tr>
+          <td><strong>21 Juin 2025</strong></td>
+          <td>Fête de la Musique</td>
+          <td>📍 Marseille</td>
+          <td><span class="badge badge-confirmed">Confirmé</span></td>
+        </tr>
+        <tr>
+          <td><strong>12 Juil 2025</strong></td>
+          <td>Summer Bass Session</td>
+          <td>📍 À définir</td>
+          <td><span class="badge badge-pending">En attente</span></td>
+        </tr>
+        <tr>
+          <td><strong>Été 2025</strong></td>
+          <td>Festivals – TBA</td>
+          <td>📍 Région PACA</td>
+          <td><span class="badge badge-pending">En cours</span></td>
+        </tr>
+      </tbody>
+    </table>
+    <p style="color:var(--text-muted);font-size:13px;margin-top:20px;">* Les dates et lieux peuvent évoluer. Suivez-nous sur nos réseaux pour les annonces officielles.</p>
+  </div>
+
+  <!-- ═══ BUDGET ═══ -->
+  <div id="budget" class="section">
+    <div class="section-title">Investissements</div>
+    <div class="section-subtitle">Transparence totale sur les dépenses de l'association</div>
+    <div class="budget-total">
+      <div>
+        <div class="budget-label">💰 Investissement total</div>
+        <div class="budget-amount">X XXX €</div>
+        <div class="budget-label" style="margin-top:6px;">depuis la création du Dahu Sound System</div>
+      </div>
+    </div>
+    <div class="budget-rows">
+      <div class="budget-row">
+        <div>
+          <div class="budget-row-name">🔊 Haut-parleurs & caissons</div>
+          <div class="budget-row-bar"><div class="budget-row-fill" style="width:70%"></div></div>
+        </div>
+        <div class="budget-row-amount">X XXX €</div>
+      </div>
+      <div class="budget-row">
+        <div>
+          <div class="budget-row-name">⚡ Amplification</div>
+          <div class="budget-row-bar"><div class="budget-row-fill" style="width:45%"></div></div>
+        </div>
+        <div class="budget-row-amount">X XXX €</div>
+      </div>
+      <div class="budget-row">
+        <div>
+          <div class="budget-row-name">🎛️ Mixage & sources</div>
+          <div class="budget-row-bar"><div class="budget-row-fill" style="width:30%"></div></div>
+        </div>
+        <div class="budget-row-amount">XXX €</div>
+      </div>
+      <div class="budget-row">
+        <div>
+          <div class="budget-row-name">🪚 Bois & construction</div>
+          <div class="budget-row-bar"><div class="budget-row-fill" style="width:25%"></div></div>
+        </div>
+        <div class="budget-row-amount">XXX €</div>
+      </div>
+      <div class="budget-row">
+        <div>
+          <div class="budget-row-name">🔌 Câblage & connectique</div>
+          <div class="budget-row-bar"><div class="budget-row-fill" style="width:15%"></div></div>
+        </div>
+        <div class="budget-row-amount">XXX €</div>
+      </div>
+      <div class="budget-row">
+        <div>
+          <div class="budget-row-name">📜 Frais administratifs</div>
+          <div class="budget-row-bar"><div class="budget-row-fill" style="width:5%"></div></div>
+        </div>
+        <div class="budget-row-amount">XXX €</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ MUSIQUE ═══ -->
+  <div id="musique" class="section">
+    <div class="section-title">Musique</div>
+    <div class="section-subtitle">Productions & mixes des membres du Dahu Sound System</div>
+    <p class="prose">Retrouvez les créations musicales des membres de l'association : mixes, productions, riddims et exclusivités. Tout ça fait avec amour et passion.</p>
+    <div class="music-links">
+      <a href="#" class="music-link">
+        <div class="music-link-icon" style="background:rgba(245,197,24,0.15);color:var(--rasta-yellow);">🎧</div>
+        <div class="music-link-info">
+          <strong>SoundCloud – Dahu Sound System</strong>
+          <span>Nos mixes et sets en écoute libre</span>
+        </div>
+        <div style="margin-left:auto;color:#333;">→</div>
+      </a>
+      <a href="#" class="music-link">
+        <div class="music-link-icon" style="background:rgba(26,122,26,0.15);color:var(--rasta-green);">🎵</div>
+        <div class="music-link-info">
+          <strong>Spotify / Deezer</strong>
+          <span>Playlists et morceaux de nos artistes</span>
+        </div>
+        <div style="margin-left:auto;color:#333;">→</div>
+      </a>
+      <a href="#" class="music-link">
+        <div class="music-link-icon" style="background:rgba(192,57,43,0.15);color:var(--rasta-red);">▶️</div>
+        <div class="music-link-info">
+          <strong>YouTube – Live Sessions</strong>
+          <span>Vidéos de nos sessions et événements</span>
+        </div>
+        <div style="margin-left:auto;color:#333;">→</div>
+      </a>
+      <a href="#" class="music-link">
+        <div class="music-link-icon" style="background:rgba(245,197,24,0.1);color:var(--rasta-yellow);">🎙️</div>
+        <div class="music-link-info">
+          <strong>Mixcloud – Émissions & Podcasts</strong>
+          <span>Émissions radio et sets exclusifs</span>
+        </div>
+        <div style="margin-left:auto;color:#333;">→</div>
+      </a>
+    </div>
+  </div>
+
+  <!-- ═══ CONTACT ═══ -->
+  <div id="contact" class="section">
+    <div class="section-title">Nous Contacter</div>
+    <div class="section-subtitle">Rejoins la vibe, connecte-toi au Dahu</div>
+    <p class="prose">Tu veux en savoir plus, proposer une date, collaborer ou juste dire allo ? Voici tous nos canaux de communication.</p>
+    <div class="contact-grid">
+      <a href="https://instagram.com/dahusoundsystem" target="_blank" class="contact-card">
+        <div class="contact-icon" style="background:linear-gradient(135deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888);">📸</div>
+        <div class="contact-info">
+          <strong>Instagram</strong>
+          <span>@dahusoundsystem</span>
+        </div>
+      </a>
+      <a href="mailto:contact@dahusoundsystem.fr" class="contact-card">
+        <div class="contact-icon" style="background:linear-gradient(135deg,var(--rasta-green),#0d4d0d);">✉️</div>
+        <div class="contact-info">
+          <strong>Email</strong>
+          <span>contact@dahusoundsystem.fr</span>
+        </div>
+      </a>
+      <a href="https://facebook.com/dahusoundsystem" target="_blank" class="contact-card">
+        <div class="contact-icon" style="background:linear-gradient(135deg,#1877f2,#0d47a1);">📘</div>
+        <div class="contact-info">
+          <strong>Facebook</strong>
+          <span>Dahu Sound System</span>
+        </div>
+      </a>
+      <a href="https://soundcloud.com/dahusoundsystem" target="_blank" class="contact-card">
+        <div class="contact-icon" style="background:linear-gradient(135deg,#ff5500,#cc3300);">🎧</div>
+        <div class="contact-info">
+          <strong>SoundCloud</strong>
+          <span>Dahu Sound System</span>
+        </div>
+      </a>
+    </div>
+    <div class="rasta-divider" style="margin-top:40px;"><span class="r"></span><span class="y"></span><span class="g"></span></div>
+    <p class="prose" style="text-align:center;margin-top:30px;max-width:100%;">
+      <strong>Une association, une passion, une famille.</strong><br>
+      Le Dahu Sound System vous attend sur la piste.
+    </p>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-rasta"><span class="r"></span><span class="y"></span><span class="g"></span></div>
+  <strong style="color:var(--rasta-yellow);font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:3px;">Dahu Sound System</strong><br>
+  Association loi 1901 · One Love, One Sound
+</footer>
+
+<script>
+function showSection(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  event.target.classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+function showSub(id) {
+  document.querySelectorAll('.sub-section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.sub-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  event.target.classList.add('active');
+}
+</script>
+</body>
+</html>
