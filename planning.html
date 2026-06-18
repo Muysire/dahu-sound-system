@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dahu Sound System — Planning</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Rajdhani:wght@400;600;700&family=Ubuntu+Mono&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- En-tete commun (banniere + hero + menu) injecte par js/layout.js -->
+<div id="dahu-header"></div>
+<script src="js/layout.js"></script>
+
+<div class="content">
+  <div class="section">
+    <div class="section-title">Planning</div>
+    <div class="section-subtitle">Nos prochaines sorties et événements</div>
+    <table class="planning-table">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Événement</th>
+          <th>Lieu</th>
+          <th>Statut</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>11 Avr 2025</strong></td>
+          <td>Sound System Session #1</td>
+          <td>📍 Thorens-Glières</td>
+          <td><span class="badge badge-confirmed">Confirmé</span></td>
+        </tr>
+        <tr>
+          <td><strong>?</strong></td>
+          <td>Autres ??</td>
+          <td>📍 À définir</td>
+          <td><span class="badge badge-pending">En attente</span></td>
+        </tr>
+      </tbody>
+    </table>
+    <p style="color:var(--text-muted);font-size:13px;margin-top:20px;">* Les dates et lieux peuvent évoluer. Suivez-nous sur nos réseaux pour les annonces officielles.</p>
+  </div>
+</div>
+
+<!-- Pied de page commun injecte par js/layout.js -->
+<footer id="dahu-footer"></footer>
+
+<script src="js/script.js"></script>
+</body>
+</html>
