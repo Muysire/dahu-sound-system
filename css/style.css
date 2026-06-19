@@ -344,6 +344,7 @@ img { max-width: 100%; display: block; }
 .timeline { margin-top: 30px; }
 .timeline-item {
   display: flex;
+  align-items: flex-start;
   gap: 24px;
   margin-bottom: 32px;
   position: relative;
@@ -351,27 +352,31 @@ img { max-width: 100%; display: block; }
 .timeline-item::before {
   content: '';
   position: absolute;
-  left: 49px; top: 40px;
+  left: 121px; top: 22px;
   width: 2px; height: calc(100% + 32px);
   background: linear-gradient(to bottom, var(--violet), transparent);
+  transform: translateX(-1px);
 }
 .timeline-item:last-child::before { display: none; }
 .timeline-year {
   font-family: 'Bebas Neue', sans-serif;
   font-size: 20px;
   color: var(--violet-light);
-  min-width: 60px;
-  padding-top: 4px;
-  text-align: center;
+  width: 90px;
+  flex-shrink: 0;
+  padding-top: 2px;
+  text-align: right;
+  white-space: nowrap;
 }
 .timeline-dot {
   width: 14px; height: 14px;
   border-radius: 50%;
   background: var(--violet);
-  margin-top: 8px;
+  margin-top: 6px;
   flex-shrink: 0;
   box-shadow: 0 0 12px rgba(139,92,246,0.7);
 }
+.timeline-text { flex: 1; min-width: 0; }
 .timeline-text h3 {
   color: var(--white);
   font-size: 18px;
