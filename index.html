@@ -11,61 +11,75 @@
 <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-
 <!-- En-tete commun (banniere + hero + menu) injecte par js/layout.js -->
 <div id="dahu-header"></div>
 <script src="js/layout.js"></script>
-
 <div class="content">
   <div class="section">
     <div class="section-title">L'Équipe</div>
     <div class="section-subtitle">Les personnes derrière le Dahu Sound System</div>
     <p class="prose">Le Dahu Sound System c'est avant tout une bande de passionné·e·s uni·e·s par la même flamme : partager la culture sound system avec le plus grand nombre. Voici les personnes qui font vivre l'association.</p>
-    <div class="cards-grid">
-      <div class="card">
-        <div class="card-avatar">🎖️</div>
-        <div class="card-role">🎖️ Président</div>
-        <div class="card-name">Emerick ALAIS</div>
-        <div class="card-desc">Pilier de l'association, coordonne les projets et représente le Dahu Sound System.</div>
+
+    <div class="team-grid">
+
+      <!-- Emerick (haut gauche) -->
+      <div class="member-card">
+        <img class="member-photo" src="images/imageemerick.png" alt="Emerick ALAIS">
+        <div class="member-role">🎖️ Président</div>
+        <div class="member-name">Emerick ALAIS</div>
+        <div class="member-divider"></div>
+        <div class="member-missions">
+          <span class="mission-tag">🪚 Menuisier — caissons &amp; plans</span>
+          <span class="mission-tag">🔧 Responsable technique</span>
+          <span class="mission-tag">🔊 Amplis · HP · câbles</span>
+        </div>
       </div>
-      <div class="card">
-        <div class="card-avatar">📋</div>
-        <div class="card-role">📋 Secrétaire</div>
-        <div class="card-name">Maureen BOZON-LEYDIER</div>
-        <div class="card-desc">Gère les démarches administratives, les comptes-rendus et les correspondances officielles.</div>
+
+      <!-- Théo (haut droite) -->
+      <div class="member-card">
+        <img class="member-photo" src="images/imagetheo.png" alt="Théo BOUCLIER">
+        <div class="member-role">🧾 Trésorier</div>
+        <div class="member-name">Théo BOUCLIER</div>
+        <div class="member-divider"></div>
+        <div class="member-missions">
+          <span class="mission-tag">💻 Site &amp; application de bar</span>
+          <span class="mission-tag">🎚️ Artiste — TOWA (effects, dub sirens)</span>
+          <span class="mission-tag">🎵 Recherche musicale</span>
+          <span class="mission-tag">🔊 Choix amplis / préamps</span>
+        </div>
       </div>
-      <div class="card">
-        <div class="card-avatar">📸</div>
-        <div class="card-role">📷 Photographe</div>
-        <div class="card-name">Marine VULLIET</div>
-        <div class="card-desc">Capture les meilleurs moments de nos événements pour l'éternité.</div>
+
+      <!-- Marine (bas gauche) -->
+      <div class="member-card">
+        <img class="member-photo" src="images/imagemarine.png" alt="Marine VULLIET">
+        <div class="member-role">📷 Photographe</div>
+        <div class="member-name">Marine VULLIET</div>
+        <div class="member-divider"></div>
+        <div class="member-missions">
+          <span class="mission-tag">📸 Photographe</span>
+          <span class="mission-tag">🎨 Artiste — peinture</span>
+          <span class="mission-tag">✨ Direction artistique</span>
+        </div>
       </div>
-      <div class="card">
-        <div class="card-avatar">🎤</div>
-        <div class="card-role">🎶 Artistes</div>
-        <div class="card-name">Maureen BOZON-LEYDIER - LOONA</div>
-        <div class="card-name">Théo BOUCLIER - ERYSIUM</div>
-        <div class="card-desc">Les artistes qui font vibrer les platines lors de chaque sortie.</div>
+
+      <!-- Maureen (bas droite) -->
+      <div class="member-card">
+        <img class="member-photo" src="images/imagemaureen.png" alt="Maureen BOZON-LEYDIER">
+        <div class="member-role">📋 Secrétaire</div>
+        <div class="member-name">Maureen BOZON-LEYDIER</div>
+        <div class="member-divider"></div>
+        <div class="member-missions">
+          <span class="mission-tag">🎶 Artiste — LOONA (selecta)</span>
+          <span class="mission-tag">🎨 Peinture des logos (caissons)</span>
+          <span class="mission-tag">📲 Community manager</span>
+        </div>
       </div>
-      <div class="card">
-        <div class="card-avatar">📲</div>
-        <div class="card-role">📲 Community Manager</div>
-        <div class="card-name">Maureen BOZON-LEYDIER</div>
-        <div class="card-desc">Anime les réseaux sociaux et gère la communication digitale de l'association.</div>
-      </div>
-      <div class="card">
-        <div class="card-avatar">🧾</div>
-        <div class="card-role">🧾 Trésorier</div>
-        <div class="card-name">Théo BOUCLIER</div>
-        <div class="card-desc">Assure le suivi financier de l'association avec rigueur et transparence.</div>
-      </div>
+
     </div>
   </div>
 </div>
-
 <!-- Pied de page commun injecte par js/layout.js -->
 <footer id="dahu-footer"></footer>
-
 <script src="js/script.js"></script>
 </body>
 </html>

@@ -263,6 +263,83 @@ img { max-width: 100%; display: block; }
   box-shadow: 0 0 16px rgba(124,58,237,0.4);
 }
 
+/* ── CARTES MEMBRE (grille 2×2) ── */
+.team-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 22px;
+  margin-top: 30px;
+}
+.member-card {
+  background: linear-gradient(165deg, #160f24 0%, #110b1c 100%);
+  border: 1px solid var(--card-border);
+  border-radius: 12px;
+  padding: 30px 26px 28px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+}
+.member-card:hover {
+  border-color: var(--violet-light);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 36px rgba(124,58,237,0.22);
+}
+.member-photo {
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid var(--violet);
+  background: #0e0a16;
+  margin-bottom: 18px;
+  box-shadow: 0 0 22px rgba(124,58,237,0.45);
+}
+.member-role {
+  font-size: 12px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--violet-light);
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+.member-name {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 30px;
+  letter-spacing: 1px;
+  color: #fff;
+  line-height: 1.05;
+  margin-bottom: 18px;
+}
+.member-divider {
+  width: 50px;
+  height: 3px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, var(--violet), var(--violet-light));
+  margin: 0 auto 18px;
+}
+.member-missions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+}
+.mission-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: rgba(124,58,237,0.12);
+  border: 1px solid var(--violet);
+  color: var(--text-main);
+  font-size: 12.5px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  padding: 6px 12px;
+  border-radius: 20px;
+  line-height: 1.2;
+}
+
 /* ── TIMELINE ── */
 .timeline { margin-top: 30px; }
 .timeline-item {
@@ -855,6 +932,7 @@ footer {
 @media (max-width: 460px) {
   body { font-size: 16px; }
   .cards-grid { grid-template-columns: 1fr; }
+  .team-grid { grid-template-columns: 1fr; }
   .matos-list, .contact-grid { grid-template-columns: 1fr; }
   .hero-logo { font-size: 34px; letter-spacing: 3px; }
   .photo-grid { grid-template-columns: 1fr 1fr; }
