@@ -11,11 +11,9 @@
 <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-
 <!-- En-tete commun (banniere + logo + menu) injecte par js/layout.js -->
 <div id="dahu-header"></div>
 <script src="js/layout.js"></script>
-
 <div class="content">
   <div class="section">
     <div class="section-title">Planning</div>
@@ -27,6 +25,7 @@
           <th>Événement</th>
           <th>Lieu</th>
           <th>Statut</th>
+          <th>Lien</th>
         </tr>
       </thead>
       <tbody>
@@ -34,23 +33,34 @@
           <td><strong>11 Avr 2025</strong></td>
           <td>Sound System Session #1</td>
           <td>📍 Thorens-Glières</td>
-          <td><span class="badge badge-confirmed">Confirmé</span></td>
+          <td><span class="badge badge-done">Terminé</span></td>
+          <td>
+            <a class="planning-insta" href="https://www.instagram.com/dahu_sound_system/reel/DXzADlaIBLQ/" target="_blank" rel="noopener" aria-label="Voir le reel Instagram de l'événement">
+              <img src="images/instagram.png" alt="Instagram">
+            </a>
+          </td>
         </tr>
         <tr>
-          <td><strong>?</strong></td>
-          <td>Autres ??</td>
-          <td>📍 À définir</td>
+          <td><strong>19 Sep 2026</strong></td>
+          <td>Meeting avec <a href="https://www.instagram.com/lion.el_sound_system/" target="_blank" rel="noopener">Lion'el Sound System</a></td>
+          <td>📍 Mieussy</td>
+          <td><span class="badge badge-confirmed">Confirmé</span></td>
+          <td><span class="planning-link-empty">—</span></td>
+        </tr>
+        <tr>
+          <td><strong>31 Oct 2026</strong></td>
+          <td>Soirée Halloween 🎃</td>
+          <td>📍 À confirmer</td>
           <td><span class="badge badge-pending">En attente</span></td>
+          <td><span class="planning-link-empty">—</span></td>
         </tr>
       </tbody>
     </table>
     <p style="color:var(--text-muted);font-size:13px;margin-top:20px;">* Les dates et lieux peuvent évoluer. Suivez-nous sur nos réseaux pour les annonces officielles.</p>
   </div>
 </div>
-
 <!-- Pied de page commun injecte par js/layout.js -->
 <footer id="dahu-footer"></footer>
-
 <script src="js/script.js"></script>
 </body>
 </html>
