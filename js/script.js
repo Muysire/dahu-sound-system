@@ -22,20 +22,32 @@ document.addEventListener('DOMContentLoaded', function () {
     btn.classList.toggle('active', href === page);
   });
 
-  /* 2) Lightbox : agrandir les photos au clic */
+  /* 2) Lightbox : agrandir les photos et les aperçus de plans au clic */
   const photos = document.querySelectorAll('.photo-item img');
-  if (photos.length) {
+  const planThumbs = document.querySelectorAll('.plan-thumb[data-zoom]');
+  if (photos.length || planThumbs.length) {
     const lb = document.createElement('div');
     lb.className = 'lightbox';
     lb.innerHTML = '<img alt="">';
     document.body.appendChild(lb);
     const lbImg = lb.querySelector('img');
+
     photos.forEach(function (img) {
       img.parentElement.addEventListener('click', function () {
         lbImg.src = img.src;
         lb.classList.add('open');
       });
     });
+
+    planThumbs.forEach(function (link) {
+      link.addEventListener('click', function (e) {
+        e.preventDefault(); // on agrandit au lieu d'ouvrir un onglet
+        const img = link.querySelector('img');
+        lbImg.src = img ? img.src : link.getAttribute('href');
+        lb.classList.add('open');
+      });
+    });
+
     lb.addEventListener('click', function () { lb.classList.remove('open'); });
     document.addEventListener('keydown', function (e) {
       if (e.key === 'Escape') lb.classList.remove('open');
