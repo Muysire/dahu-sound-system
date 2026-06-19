@@ -201,12 +201,12 @@ img { max-width: 100%; display: block; }
 }
 
 /* Liens dans le texte (bleu clair) */
-.prose a, .timeline-text a, .link-blue {
+.link-blue {
   color: var(--link-blue);
   text-decoration: none;
   border-bottom: 1px dotted var(--link-blue);
 }
-.prose a:hover, .timeline-text a:hover, .link-blue:hover {
+.link-blue:hover {
   color: #93cbff;
   border-bottom-style: solid;
 }
