@@ -24,7 +24,7 @@ const DAHU_HEADER = `
       <a class="nav-btn" href="histoire.html">🌱 Notre Histoire</a>
       <a class="nav-btn" href="sound-system.html">🔊 Le Sound System</a>
       <a class="nav-btn" href="planning.html">📅 Planning</a>
-      <a class="nav-btn" href="investissements.html">💰 Investissements</a>
+       <!-- <a class="nav-btn" href="investissements.html">💰 Investissements</a> -->
       <a class="nav-btn" href="musique.html">🎵 Musique</a>
       <a class="nav-btn" href="contact.html">📡 Contact</a>
     </nav>
